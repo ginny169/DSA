@@ -8,11 +8,19 @@ public class PeakIndexOfMountain {
     }
 
     public static int peakIndexInMountainArray(int[] arr) {
-        for (int i = 1; i < arr.length; i++) {
-            if (arr[i]<=arr[i-1]){
-                return i-1;
+        int left = 1;
+        int right = arr.length - 2;
+
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (arr[mid - 1] < arr[mid] && arr[mid] < arr[mid + 1]) {
+                left = mid + 1;
+            } else if (arr[mid - 1] < arr[mid] && arr[mid] > arr[mid + 1]) {
+                return mid;
+            } else {
+                right = mid - 1;
             }
         }
-        return arr.length-1;
+        return -1;
     }
 }
