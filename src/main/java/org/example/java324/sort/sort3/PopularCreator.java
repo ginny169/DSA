@@ -83,7 +83,6 @@ public class PopularCreator {
                 formattedResult.add(creatorInfo);
             }
         }
-
         return formattedResult;
 
     }
