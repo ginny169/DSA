@@ -16,6 +16,7 @@ public class GreatestLetter {
             int mid = (left + right) / 2;
             if (letters[mid] > target) {
                 right = mid;
+                System.out.println(mid);
             } else {
                 left = mid + 1;
             }

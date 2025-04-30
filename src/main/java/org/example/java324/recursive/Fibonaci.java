@@ -13,6 +13,8 @@ public class Fibonaci {
 
     public static void main(String[] args) {
         System.out.println(fib(5));
+        double degrees = Math.toDegrees(3);
+        System.out.println("degrees = " + degrees);
     }
 }
 
