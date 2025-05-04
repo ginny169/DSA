@@ -10,17 +10,36 @@ public class CombinationIterator {
     private static List<String> combinations;
 
     public static void main(String[] args) {
-        String characters = "abc";
-        int length = 2;
+        String characters = "chp";
+        int length = 1;
         CombinationIterator obj = new CombinationIterator(characters, length);
+//        System.out.println(combinations);
         String param_1 = obj.next();
         System.out.println(param_1);
         boolean param_2 = obj.hasNext();
         System.out.println(param_2);
+        param_1 = obj.next();
+        System.out.println(param_1);
+        param_2 = obj.hasNext();
+        System.out.println(param_2);
+        param_1 = obj.next();
+        System.out.println(param_1);
+        param_2 = obj.hasNext();
+        System.out.println(param_2);
+        param_1 = obj.next();
+        System.out.println(param_1);
+        param_2 = obj.hasNext();
+        System.out.println(param_2);
+        param_1 = obj.next();
+        System.out.println(param_1);
+        param_2 = obj.hasNext();
+        System.out.println(param_2);
+
     }
 
     public CombinationIterator(String characters, int combinationLength) {
         combinations = new ArrayList<>();
+        last = 0;
         backtrack(characters, combinationLength, 0, new StringBuilder());
 
     }
