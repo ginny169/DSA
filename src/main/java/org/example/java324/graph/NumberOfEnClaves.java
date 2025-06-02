@@ -3,67 +3,51 @@ package org.example.java324.graph;
 public class NumberOfEnClaves {
 
     public static void main(String[] args) {
-        int[][] dislikes = {{0, 1, 0}, {0, 1, 0}, {0, 0, 0}};
+        int[][] dislikes = {{0, 0, 0}, {0, 1, 0}, {0, 0, 0}};
         System.out.println(numEnclaves(dislikes));
     }
 
+    private static int[] rx = new int[]{1, -1, 0, 0};
+    private static int[] ry = new int[]{0, 0, -1, 1};
+
     public static int numEnclaves(int[][] grid) {
-        int rows = grid.length;
-        int cols = grid[0].length;
-        int max = 0;
-        for (int i = 1; i < rows-1; i++) {
-            for (int j = 1; j < cols-1; j++) {
-                if (grid[i][j] == 1) {
-                    max += dfs(grid, i, j);
+        int s = 0;
+        int n = grid.length;
+        int m = grid[0].length;
+        for (int i = 0; i < n; i++) {
+            if (grid[i][0] == 1) {
+                dfs(i, 0, n, m, grid);
+            }
+            if (grid[i][m - 1] == 1) {
+                dfs(i, m - 1, n, m, grid);
+            }
+        }
+        for (int i = 0; i < m; i++) {
+            if (grid[0][i] == 1) {
+                dfs(0, i, n, m, grid);
+            }
+            if (grid[n - 1][i] == 1) {
+                dfs(n - 1, i, n, m, grid);
+            }
+        }
+        for(int i=1;i<n-1;i++) {
+            for(int j=1;j<m-1;j++) {
+                if(grid[i][j] == 1) {
+                    s++;
                 }
             }
         }
-        return max;
+        return s;
     }
 
-    public static int dfs(int[][] grid, int row, int col) {
-        grid[row][col] = 0;
-        int result = 1;
-        if (row < 0 || row > grid.length - 1 || col < 0 || col > grid[0].length - 1) {
-            return 0;
-        }
-        if (row == 0 || row == grid.length - 1 || col == 0 || col == grid[0].length - 1) {
-            if (grid[row][col] == 1) {
-                result = 0;
+    private static void dfs(int x, int y, int n, int m, int[][] grid) {
+        grid[x][y] = 0;
+        for (int i = 0; i < 4; i++) {
+            int newX = x + rx[i];
+            int newY = y + ry[i];
+            if (newX >= 0 && newX < n && newY >= 0 && newY < m && grid[newX][newY] == 1) {
+                dfs(newX, newY, n, m, grid);
             }
         }
-        if (row < grid.length-1 && grid[row + 1][col] == 1) {
-            int res = dfs(grid, row + 1, col);
-            if (res > 0) {
-                result += res;
-            } else {
-                return 0;
-            }
-        }
-        if (row > 0 && grid[row - 1][col] == 1) {
-            int res = dfs(grid, row - 1, col);
-            if (res > 0) {
-                result += res;
-            } else {
-                return 0;
-            }
-        }
-        if (col < grid[0].length - 1 && grid[row][col + 1] == 1) {
-            int res = dfs(grid, row, col + 1);
-            if (res > 0) {
-                result += res;
-            } else {
-                return 0;
-            }
-        }
-        if (col > 0 && grid[row][col - 1] == 1) {
-            int res = dfs(grid, row, col - 1);
-            if (res > 0) {
-                result += res;
-            } else {
-                return 0;
-            }
-        }
-        return result;
     }
 }
