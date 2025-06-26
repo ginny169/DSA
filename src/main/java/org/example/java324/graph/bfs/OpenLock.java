@@ -14,33 +14,46 @@ public class OpenLock {
     }
 
     public static int bfs(String[] deadends, String target, Set<String> visited) {
-        int result = 0;
-        Queue<String> queue = new LinkedList<>();
+        Queue<LevelOfString> queue = new LinkedList<>();
         String start = "0000";
         Set<String> dead = new HashSet<>(Arrays.asList(deadends));
 
         if (dead.contains(start)) return -1;
 
-        queue.offer(start);
+        queue.add(new LevelOfString(start,0));
         visited.add(start);
 
         while (!queue.isEmpty()){
-            int n = queue.size();
-
-            for (int i = 0; i < n; i++){
-                String cur = queue.poll();
-                if (cur.equals(target)) return result;
-                for (String next : getNextStates(cur)){
+             LevelOfString cur = queue.remove();
+                if (cur.getTitle().equals(target)) return cur.getLevel();
+                for (String next : getNextStates(cur.getTitle())){
                     if (!dead.contains(next) && !visited.contains(next)){
-                        queue.offer(next);
+                        queue.add(new LevelOfString(next, cur.getLevel()+1));
                         visited.add(next);
                     }
                 }
-            }
-            result++;
         }
         return -1;
     }
+
+    public static class LevelOfString{
+        private String title;
+        private int level;
+
+        public LevelOfString(String title,int level) {
+            this.level = level;
+            this.title = title;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public int getLevel() {
+            return level;
+        }
+    }
+
     private static List<String> getNextStates(String s) {
         List<String> res = new ArrayList<>();
         char[] chars = s.toCharArray();

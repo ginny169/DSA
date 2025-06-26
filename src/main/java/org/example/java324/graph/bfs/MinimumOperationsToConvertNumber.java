@@ -17,30 +17,25 @@ public class MinimumOperationsToConvertNumber {
     }
 
     public static int minimumOperations(int[] nums, int start, int goal) {
-        Queue<Integer> queue = new LinkedList<>();
+        Queue<int[]> queue = new LinkedList<>();
         boolean[] used = new boolean[1001];
-        queue.add(start);
+        queue.add(new int[]{start,0});
         used[start] = true;
 
-        int result = 0;
         while (!queue.isEmpty()) {
-            int size = queue.size();
-            for (int i = 0; i < size; i++) {
-                int cur = queue.remove();
-                if (cur == goal) {
-                    return result;
+            int[] cur = queue.remove();
+            if (cur[0] == goal){
+                return cur[1];
+            }
+            for (int next : operations(nums, cur[0])) {
+                if (next == goal) {
+                    return cur[1] + 1;
                 }
-                for (int next : operations(nums, cur)) {
-                    if (next == goal) {
-                        return result + 1;
-                    }
-                    if (next >= 0 && next <= 1000 && !used[next]) {
-                        queue.add(next);
-                        used[next] = true;
-                    }
+                if (next >= 0 && next <= 1000 && !used[next]) {
+                    queue.add(new int[]{next,cur[1]+1});
+                    used[next] = true;
                 }
             }
-            result++;
         }
         return -1;
     }
